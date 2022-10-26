@@ -1,0 +1,24 @@
+{
+  "name": "solipsisworld",
+  "version": "1.0.0",
+  "description": "deploy solipsis to vrspace",
+  "main": "solpkg.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node solpkg.js"
+  },
+  "author": "Tristal Li",
+  "license": "ISC",
+  "dependencies": {
+    "browserify": "^17.0.0",
+    "solipsism": "^0.0.2",
+    "three": "^0.142.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.6",
+    "@babel/preset-env": "^7.18.6",
+    "babelify": "^10.0.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  }
+}
