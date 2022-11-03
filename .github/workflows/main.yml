@@ -66,6 +66,7 @@ jobs:
             key: ${{ secrets.RSA_KEY }} 
             port: 22
             script: | 
+              gcloud container clusters create ${{ env.Cluster_name }}
               gcloud container clusters get-credentials ${{ env.Cluster_name }}
               kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/vrserver
               kubectl get pods
