@@ -106,9 +106,3 @@ Here I will use my docker image name (tristal25/vrserver). If you choose to use 
 8. Go to Workloads-vrserver. Find exposing service-endpoint. Copy the endpoint. 
    ![kubernetes6](doc/kubernetes6.png)
 9. The deployed VRSpace script is in this URL: http://(the endpoint that you copied)/content/worlds/solipsisworld/movements.html
-
-
-
-
-
-
