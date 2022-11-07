@@ -1,0 +1,250 @@
+
+/Users/elina/Desktop/projects/metaverse/content/worlds/solipsisworld/bundle.js
+    228:27   warning  Unexpected 'this'                                                                               no-invalid-this
+    230:18   warning  Unexpected 'this'                                                                               no-invalid-this
+    233:10   warning  Unexpected 'this'                                                                               no-invalid-this
+    239:9    warning  Unexpected 'this'                                                                               no-invalid-this
+    246:9    warning  Unexpected 'this'                                                                               no-invalid-this
+    247:10   warning  Unexpected 'this'                                                                               no-invalid-this
+    249:24   warning  Unexpected 'this'                                                                               no-invalid-this
+    253:9    warning  Unexpected 'this'                                                                               no-invalid-this
+    261:27   warning  Unexpected 'this'                                                                               no-invalid-this
+    261:51   warning  Unexpected 'this'                                                                               no-invalid-this
+    262:9    warning  Unexpected 'this'                                                                               no-invalid-this
+    263:26   warning  Unexpected 'this'                                                                               no-invalid-this
+    281:9    warning  Unexpected 'this'                                                                               no-invalid-this
+    287:27   warning  Unexpected 'this'                                                                               no-invalid-this
+    288:14   warning  Unexpected 'this'                                                                               no-invalid-this
+    298:25   warning  Unexpected 'this'                                                                               no-invalid-this
+    303:25   warning  Unexpected 'this'                                                                               no-invalid-this
+    306:25   warning  Unexpected 'this'                                                                               no-invalid-this
+    309:25   warning  Unexpected 'this'                                                                               no-invalid-this
+    317:26   warning  Unexpected 'this'                                                                               no-invalid-this
+   1432:4    warning  Unexpected 'this'                                                                               no-invalid-this
+   1432:11   error    Function has too many statements (1436). Maximum allowed is 33                                  max-statements
+   2856:11   error    Method 'setStyle' has too many statements (40). Maximum allowed is 33                           max-statements
+   3776:33   error    Method 'setAxisAngleFromRotationMatrix' has too many statements (44). Maximum allowed is 33     max-statements
+   4249:19   error    Static method 'slerpFlat' has too many statements (36). Maximum allowed is 33                   max-statements
+   4652:8    error    Method 'slerp' has too many statements (36). Maximum allowed is 33                              max-statements
+   5951:22   error    Method 'distanceSqToSegment' has too many statements (45). Maximum allowed is 33                max-statements
+   6354:24   error    Method 'makeRotationFromEuler' has too many statements (76). Maximum allowed is 33              max-statements
+   7706:9    error    Method 'toJSON' has too many statements (82). Maximum allowed is 33                             max-statements
+   7706:9    error    Method 'toJSON' has a complexity of 44. Maximum allowed is 18                                   complexity
+   8082:22   error    Method 'closestPointToPoint' has too many statements (36). Maximum allowed is 33                max-statements
+   8172:14   error    Constructor has too many statements (45). Maximum allowed is 33                                 max-statements
+   8280:9    error    Method 'toJSON' has too many statements (123). Maximum allowed is 33                            max-statements
+   8280:9    error    Method 'toJSON' has a complexity of 115. Maximum allowed is 18                                  complexity
+   8467:7    error    Method 'copy' has too many statements (47). Maximum allowed is 33                               max-statements
+   9186:24   error    Method 'computeBoundingSphere' has too many statements (40). Maximum allowed is 33              max-statements
+   9269:18   error    Method 'computeTangents' has too many statements (39). Maximum allowed is 33                    max-statements
+   9385:23   error    Method 'computeVertexNormals' has too many statements (44). Maximum allowed is 33               max-statements
+   9562:9    error    Method 'toJSON' has too many statements (39). Maximum allowed is 33                             max-statements
+   9651:7    error    Method 'copy' has too many statements (38). Maximum allowed is 33                               max-statements
+   9814:10   error    Method 'raycast' has too many statements (72). Maximum allowed is 33                            max-statements
+   9814:10   error    Method 'raycast' has a complexity of 20. Maximum allowed is 18                                  complexity
+   9956:2    error    Function 'checkBufferGeometryIntersection' has too many statements (45). Maximum allowed is 33  max-statements
+  10092:4    error    Function 'buildPlane' has too many statements (37). Maximum allowed is 33                       max-statements
+  10273:9    error    Method 'toJSON' has a complexity of 20. Maximum allowed is 18                                   complexity
+  10563:14   error    Constructor has too many statements (36). Maximum allowed is 33                                 max-statements
+  11184:14   error    Constructor has too many statements (35). Maximum allowed is 33                                 max-statements
+  12198:3    error    Function 'render' has too many statements (47). Maximum allowed is 33                           max-statements
+  12198:3    error    Function 'render' has a complexity of 28. Maximum allowed is 18                                 complexity
+  12561:3    error    Function 'setupVertexAttributes' has too many statements (49). Maximum allowed is 33            max-statements
+  12561:3    error    Function 'setupVertexAttributes' has a complexity of 32. Maximum allowed is 18                  complexity
+  13363:17   error    Method '_sceneToCubeUV' has too many statements (42). Maximum allowed is 33                     max-statements
+  13489:12   error    Method '_halfBlur' has too many statements (39). Maximum allowed is 33                          max-statements
+  13555:2    error    Function '_createPlanes' has too many statements (41). Maximum allowed is 33                    max-statements
+  13873:3    error    Function 'get' has a complexity of 20. Maximum allowed is 18                                    complexity
+  14277:3    error    Function 'update' has too many statements (108). Maximum allowed is 33                          max-statements
+  14277:3    error    Function 'update' has a complexity of 46. Maximum allowed is 18                                 complexity
+  14626:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14628:16   warning  Unexpected 'this'                                                                               no-invalid-this
+  14634:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14638:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14644:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14650:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14654:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14661:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14668:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14674:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14678:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14686:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14693:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14698:24   warning  Unexpected 'this'                                                                               no-invalid-this
+  14703:24   warning  Unexpected 'this'                                                                               no-invalid-this
+  14709:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14714:24   warning  Unexpected 'this'                                                                               no-invalid-this
+  14719:24   warning  Unexpected 'this'                                                                               no-invalid-this
+  14725:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14730:24   warning  Unexpected 'this'                                                                               no-invalid-this
+  14735:24   warning  Unexpected 'this'                                                                               no-invalid-this
+  14742:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14744:16   warning  Unexpected 'this'                                                                               no-invalid-this
+  14750:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14752:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14757:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14759:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14764:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14766:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14772:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14774:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14780:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14782:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14787:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14789:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14794:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14796:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  14802:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14806:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14814:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14818:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14826:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14830:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14838:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14842:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14850:2    error    Function 'getSingularSetter' has a complexity of 36. Maximum allowed is 18                      complexity
+  14960:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14965:27   warning  Unexpected 'this'                                                                               no-invalid-this
+  14966:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14970:27   warning  Unexpected 'this'                                                                               no-invalid-this
+  14971:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14975:27   warning  Unexpected 'this'                                                                               no-invalid-this
+  14976:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  14981:27   warning  Unexpected 'this'                                                                               no-invalid-this
+  14982:23   warning  Unexpected 'this'                                                                               no-invalid-this
+  14986:27   warning  Unexpected 'this'                                                                               no-invalid-this
+  14987:23   warning  Unexpected 'this'                                                                               no-invalid-this
+  14991:27   warning  Unexpected 'this'                                                                               no-invalid-this
+  14992:23   warning  Unexpected 'this'                                                                               no-invalid-this
+  14997:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  15002:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  15006:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  15010:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  15015:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  15020:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  15024:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  15028:18   warning  Unexpected 'this'                                                                               no-invalid-this
+  15035:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  15045:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  15055:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  15065:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  15073:2    error    Function 'getPureArraySetter' has a complexity of 36. Maximum allowed is 18                     complexity
+  15597:2    error    Function 'WebGLProgram' has too many statements (75). Maximum allowed is 33                     max-statements
+  15597:2    error    Function 'WebGLProgram' has a complexity of 147. Maximum allowed is 18                          complexity
+  15864:3    error    Function 'getParameters' has a complexity of 79. Maximum allowed is 18                          complexity
+  16066:3    error    Function 'getProgramCacheKeyBooleans' has too many statements (62). Maximum allowed is 33       max-statements
+  16066:3    error    Function 'getProgramCacheKeyBooleans' has a complexity of 59. Maximum allowed is 18             complexity
+  16549:3    error    Function 'setup' has too many statements (127). Maximum allowed is 33                           max-statements
+  16549:3    error    Function 'setup' has a complexity of 29. Maximum allowed is 18                                  complexity
+  16719:3    error    Function 'setupView' has too many statements (43). Maximum allowed is 33                        max-statements
+  16965:17   error    Function has too many statements (51). Maximum allowed is 33                                    max-statements
+  17098:3    error    Function 'getDepthMaterial' has too many statements (36). Maximum allowed is 33                 max-statements
+  17098:3    error    Function 'getDepthMaterial' has a complexity of 19. Maximum allowed is 18                       complexity
+  17200:2    error    Function 'WebGLState' has too many statements (90). Maximum allowed is 33                       max-statements
+  17583:3    error    Function 'setBlending' has too many statements (39). Maximum allowed is 33                      max-statements
+  17583:3    error    Function 'setBlending' has a complexity of 27. Maximum allowed is 18                            complexity
+  17893:3    error    Function 'reset' has too many statements (57). Maximum allowed is 33                            max-statements
+  17993:2    error    Function 'WebGLTextures' has too many statements (66). Maximum allowed is 33                    max-statements
+  18015:64   error    Definition for rule 'compat/compat' was not found                                               compat/compat
+  18022:32   error    Definition for rule 'compat/compat' was not found                                               compat/compat
+  18078:3    error    Function 'getInternalFormat' has a complexity of 26. Maximum allowed is 18                      complexity
+  18462:3    error    Function 'uploadTexture' has too many statements (112). Maximum allowed is 33                   max-statements
+  18462:3    error    Function 'uploadTexture' has a complexity of 61. Maximum allowed is 18                          complexity
+  18685:3    error    Function 'uploadCubeTexture' has too many statements (68). Maximum allowed is 33                max-statements
+  18685:3    error    Function 'uploadCubeTexture' has a complexity of 35. Maximum allowed is 18                      complexity
+  18845:3    error    Function 'setupRenderBufferStorage' has a complexity of 20. Maximum allowed is 18               complexity
+  18990:3    error    Function 'setupRenderTarget' has too many statements (77). Maximum allowed is 33                max-statements
+  18990:3    error    Function 'setupRenderTarget' has a complexity of 28. Maximum allowed is 18                      complexity
+  19145:3    error    Function 'updateMultisampleRenderTarget' has too many statements (46). Maximum allowed is 33    max-statements
+  19145:3    error    Function 'updateMultisampleRenderTarget' has a complexity of 20. Maximum allowed is 18          complexity
+  19301:3    error    Function 'convert' has too many statements (100). Maximum allowed is 33                         max-statements
+  19301:3    error    Function 'convert' has a complexity of 111. Maximum allowed is 18                               complexity
+  19581:9    error    Method 'update' has too many statements (69). Maximum allowed is 33                             max-statements
+  19581:9    error    Method 'update' has a complexity of 26. Maximum allowed is 18                                   complexity
+  19738:14   error    Constructor has too many statements (61). Maximum allowed is 33                                 max-statements
+  19899:22   error    Async function has too many statements (40). Maximum allowed is 33                              max-statements
+  20166:4    error    Function 'onAnimationFrame' has too many statements (41). Maximum allowed is 33                 max-statements
+  20308:3    error    Function 'refreshUniformsCommon' has too many statements (79). Maximum allowed is 33            max-statements
+  20308:3    error    Function 'refreshUniformsCommon' has a complexity of 47. Maximum allowed is 18                  complexity
+  20597:3    error    Function 'refreshUniformsPhysical' has too many statements (46). Maximum allowed is 33          max-statements
+  20705:2    error    Function 'WebGLRenderer' has too many statements (152). Maximum allowed is 33                   max-statements
+  20705:2    error    Function 'WebGLRenderer' has a complexity of 21. Maximum allowed is 18                          complexity
+  21178:29   error    Function has too many statements (48). Maximum allowed is 33                                    max-statements
+  21178:29   error    Function has a complexity of 23. Maximum allowed is 18                                          complexity
+  21320:17   error    Function has too many statements (52). Maximum allowed is 33                                    max-statements
+  21320:17   error    Function has a complexity of 20. Maximum allowed is 18                                          complexity
+  21413:3    error    Function 'projectObject' has too many statements (36). Maximum allowed is 33                    max-statements
+  21413:3    error    Function 'projectObject' has a complexity of 27. Maximum allowed is 18                          complexity
+  21580:3    error    Function 'getProgram' has too many statements (56). Maximum allowed is 33                       max-statements
+  21675:3    error    Function 'setProgram' has too many statements (104). Maximum allowed is 33                      max-statements
+  21675:3    error    Function 'setProgram' has a complexity of 88. Maximum allowed is 18                             complexity
+  21931:26   error    Function has too many statements (43). Maximum allowed is 33                                    max-statements
+  21931:26   error    Function has a complexity of 19. Maximum allowed is 18                                          complexity
+  22011:33   error    Function has a complexity of 23. Maximum allowed is 18                                          complexity
+  22097:33   error    Function has too many statements (43). Maximum allowed is 33                                    max-statements
+  23391:10   error    Method 'raycast' has too many statements (46). Maximum allowed is 33                            max-statements
+  23950:22   error    Method 'computeFrenetFrames' has too many statements (44). Maximum allowed is 33                max-statements
+  24244:11   error    Method 'getPoint' has too many statements (37). Maximum allowed is 33                           max-statements
+  25060:14   error    Constructor has too many statements (49). Maximum allowed is 33                                 max-statements
+  25351:4    error    Function 'generateCap' has too many statements (35). Maximum allowed is 33                      max-statements
+  25673:14   error    Constructor has too many statements (55). Maximum allowed is 33                                 max-statements
+  25982:2    error    Function 'isEarHashed' has a complexity of 38. Maximum allowed is 18                            complexity
+  26113:2    error    Function 'findHoleBridge' has a complexity of 26. Maximum allowed is 18                         complexity
+  26539:4    error    Function 'addShape' has too many statements (119). Maximum allowed is 33                        max-statements
+  26539:4    error    Function 'addShape' has a complexity of 40. Maximum allowed is 18                               complexity
+  26621:5    error    Function 'getBevelVec' has too many statements (36). Maximum allowed is 33                      max-statements
+  27057:14   error    Constructor has too many statements (38). Maximum allowed is 33                                 max-statements
+  27245:14   error    Constructor has too many statements (44). Maximum allowed is 33                                 max-statements
+  27344:14   error    Constructor has too many statements (38). Maximum allowed is 33                                 max-statements
+  27414:14   error    Constructor has too many statements (51). Maximum allowed is 33                                 max-statements
+  27631:14   error    Constructor has too many statements (38). Maximum allowed is 33                                 max-statements
+  27795:14   error    Constructor has too many statements (35). Maximum allowed is 33                                 max-statements
+  28010:14   error    Constructor has too many statements (35). Maximum allowed is 33                                 max-statements
+  28467:21   error    Method 'makeClipAdditive' has too many statements (44). Maximum allowed is 33                   max-statements
+  28579:11   error    Method 'evaluate' has too many statements (55). Maximum allowed is 33                           max-statements
+  29392:24   error    Static method 'parseAnimation' has too many statements (37). Maximum allowed is 33              max-statements
+  30082:20   warning  Unexpected 'this'                                                                               no-invalid-this
+  30083:24   warning  Unexpected 'this'                                                                               no-invalid-this
+  30880:8    error    Method 'parse' has too many statements (123). Maximum allowed is 33                             max-statements
+  30880:8    error    Method 'parse' has a complexity of 124. Maximum allowed is 18                                   complexity
+  31204:8    error    Method 'parse' has too many statements (58). Maximum allowed is 33                              max-statements
+  31204:8    error    Method 'parse' has a complexity of 23. Maximum allowed is 18                                    complexity
+  31677:16   error    Method 'parseTextures' has too many statements (42). Maximum allowed is 33                      max-statements
+  31677:16   error    Method 'parseTextures' has a complexity of 27. Maximum allowed is 18                            complexity
+  31746:14   error    Method 'parseObject' has too many statements (54). Maximum allowed is 33                        max-statements
+  31746:14   error    Method 'parseObject' has a complexity of 69. Maximum allowed is 18                              complexity
+  33296:7    error    Method 'bind' has too many statements (63). Maximum allowed is 33                               max-statements
+  33296:7    error    Method 'bind' has a complexity of 26. Maximum allowed is 18                                     complexity
+  34098:14   error    Method '_updateTime' has too many statements (47). Maximum allowed is 33                        max-statements
+  34098:14   error    Method '_updateTime' has a complexity of 22. Maximum allowed is 18                              complexity
+  35688:14   error    Constructor has too many statements (48). Maximum allowed is 33                                 max-statements
+  35766:12   error    Method 'setColors' has too many statements (53). Maximum allowed is 33                          max-statements
+  35932:9    error    Method 'update' has too many statements (35). Maximum allowed is 33                             max-statements
+  36217:11   error    Method 'toShapes' has too many statements (65). Maximum allowed is 33                           max-statements
+  36217:11   error    Method 'toShapes' has a complexity of 25. Maximum allowed is 18                                 complexity
+  36398:2    error    Function '_generateTables' has too many statements (53). Maximum allowed is 33                  max-statements
+  37253:22   warning  Unexpected 'this'                                                                               no-invalid-this
+  37420:13   warning  Unexpected 'this'                                                                               no-invalid-this
+  37422:17   warning  Unexpected 'this'                                                                               no-invalid-this
+  37428:20   warning  Unexpected 'this'                                                                               no-invalid-this
+  37462:32   error    Function has a complexity of 39. Maximum allowed is 18                                          complexity
+  37715:18   error    Function 'GetIntrinsic' has too many statements (43). Maximum allowed is 33                     max-statements
+  37715:18   error    Function 'GetIntrinsic' has a complexity of 29. Maximum allowed is 18                           complexity
+  38116:22   warning  Unexpected 'this'                                                                               no-invalid-this
+  38117:154  error    Function has too many statements (38). Maximum allowed is 33                                    max-statements
+  38174:42   warning  Unexpected 'this'                                                                               no-invalid-this
+  38200:44   warning  Unexpected 'this'                                                                               no-invalid-this
+  38310:11   error    Function has too many statements (99). Maximum allowed is 33                                    max-statements
+  38647:22   error    Function has too many statements (71). Maximum allowed is 33                                    max-statements
+  38730:47   warning  Unexpected 'this'                                                                               no-invalid-this
+  38746:21   warning  Unexpected 'this'                                                                               no-invalid-this
+  38875:1    error    Function 'formatValue' has too many statements (50). Maximum allowed is 33                      max-statements
+  38875:1    error    Function 'formatValue' has a complexity of 31. Maximum allowed is 18                            complexity
+  39294:22   warning  Unexpected 'this'                                                                               no-invalid-this
+  39346:16   warning  Unexpected 'this'                                                                               no-invalid-this
+  39352:20   warning  Unexpected 'this'                                                                               no-invalid-this
+  39364:22   warning  Unexpected 'this'                                                                               no-invalid-this
+  39423:22   warning  Unexpected 'this'                                                                               no-invalid-this
+
+✖ 245 problems (138 errors, 107 warnings)
+
