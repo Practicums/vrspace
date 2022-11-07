@@ -25,8 +25,12 @@ jobs:
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: npm ci
+      
+      -name: Check Files
+        uses: jitterbit/get-changed-files@v1
+        run: |
+            for changed_file in ${{ steps.files.outputs.all }}; do
+              npx eslint $changed_file
+            done
 
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
+
