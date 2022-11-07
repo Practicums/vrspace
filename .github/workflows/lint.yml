@@ -26,7 +26,7 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
       
-      -name: Check Files
+      - name: Check Files
         uses: jitterbit/get-changed-files@v1
         run: |
             for changed_file in ${{ steps.files.outputs.all }}; do
