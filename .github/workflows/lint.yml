@@ -29,8 +29,13 @@ jobs:
       - id: files
         uses: jitterbit/get-changed-files@v1
       - run: |
-            for changed_file in ${{ steps.files.outputs.all }}; do
-              npx eslint $changed_file
+            for changed_file in ${{ steps.files.outputs.all }}; 
+            if [[ $file == *.js ]]
+            then
+            do
+              npx eslint $changed_file 
             done
+            fi
+
 
 
