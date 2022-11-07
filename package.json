@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "jest": "^29.2.2"
+  },
+  "dependencies": {
+    "y18n": "^5.0.8"
+  }
+}
