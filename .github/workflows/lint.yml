@@ -26,9 +26,9 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
       
-      - name: Check Files
+      - id: files
         uses: jitterbit/get-changed-files@v1
-        run: |
+      - run: |
             for changed_file in ${{ steps.files.outputs.all }}; do
               npx eslint $changed_file
             done
