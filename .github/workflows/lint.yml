@@ -34,8 +34,9 @@ jobs:
             if [[ $file == *.js ]]
             then
               npx eslint $changed_file 
-            done
+
             fi
+            done
 
 
 
