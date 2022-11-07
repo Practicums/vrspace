@@ -30,7 +30,7 @@ jobs:
         uses: jitterbit/get-changed-files@v1
       - run: |
             for changed_file in ${{ steps.files.outputs.all }}; do
-              npx eslint $changed_file
+              npx eslint $changed_file >> reports.txt
             done
 
 
