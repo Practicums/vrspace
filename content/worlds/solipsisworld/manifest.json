@@ -1,0 +1,22 @@
+{
+    "name":"Solipsis Test 2000",
+    "short_name":"SolipsisTest",
+    "start_url":"http://34.70.212.18/content/worlds/solipsisworld/movements.html",
+    "background_color":"#fff",
+    "theme_color":"#2d0",
+    "ovr_package_name":"our.solipsis.thing",
+    "display":"standalone",
+    "icons":[
+        {
+            "src":"images/logo192.png",
+            "sizes":"192x192",
+            "type":"image/png",
+            "purpose":"maskable"
+        },
+        {
+            "src":"images/logo512.png",
+            "sizes":"512x512",
+            "type":"image/png"
+        }
+    ]
+}
