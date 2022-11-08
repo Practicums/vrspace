@@ -40,7 +40,7 @@ The speed of the camera can be customized by a scalar indicating the speed.
 ### Object movement
 
 Because we keep a record of the camera movement and position, we can move objects according to it. 
-1. When we are pressing the key W, we also update the position of the ball. The direction can be calculated by the angle in the camera's record. 
+1. When we are pressing the key __W__, we also update the position of the ball. The direction can be calculated by the angle in the camera's record. 
 2. Each time when we rotate the camera for 360 degrees, we update the position of the ball and the box by exchanging their y-axis values. 
 
 ## How to visualize using VRSpace server
