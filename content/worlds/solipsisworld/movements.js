@@ -1,5 +1,6 @@
 var Sol = require('solipsism');
 var forwardstep = 0.2
+//just add a dummy comment
 var rotatestep = 0.02
 var ballstep = 0.1
 var scene = new THREE.Scene();
