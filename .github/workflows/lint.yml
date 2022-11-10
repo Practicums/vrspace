@@ -33,7 +33,7 @@ jobs:
             do
             if [[ $file == *.js ]]
             then
-              npx eslint $changed_file 
+              npx eslint $changed_file > result.txt 2>/dev/null
 
             fi
             done

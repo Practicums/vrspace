@@ -5,7 +5,7 @@ var rotatestep = 0.02
 var ballstep = 0.1
 var scene = new THREE.Scene();
 var world = new Sol.GameWorld('Client');
-world.addBinding(new Sol.ThreeBinding(require('three'), scene))
+world.addBinding(new Sol.ThreeBinding(require('three'), scene)
 
 world.add({
     type: 'spotlight', 
