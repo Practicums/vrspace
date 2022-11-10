@@ -44,19 +44,18 @@ jobs:
           run: |-
             gcloud auth configure-docker -q
             
-        - name: Build Docker Image
+        - name: Build Docker
           run: |-
-            docker build -t ${{ env.Name }} .
+            docker build -t vrspace .
             
-        - name: Tag Docker Image
+        - name: Tag Docker
           run: |-
-            docker tag ${{ env.Name }} gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+            docker tag vrspace gcr.io/${{ env.Project_Name }}/vrserver
             
-        - name: Push Docker Image
+        - name: Push Docker
           run: |-
-            docker push gcr.io/${{ env.Project_Name }}/${{ env.Name }}
-
-        - name: Deploy Docker Image
+            docker push gcr.io/${{ env.Project_Name }}/vrserver
+        - name: Deploy Docker
           uses: appleboy/ssh-action@master
           with:
             host: ${{ secrets.SSH_HOST }} 
