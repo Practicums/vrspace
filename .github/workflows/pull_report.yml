@@ -20,17 +20,18 @@ jobs:
           node-version: 12
 
       # ESLint and Prettier must be in `package.json`
-      # - name: Install Node.js dependencies
-      #   run: npm ci
+      - name: Install Node.js dependencies
+        run: npm ci
       
       - id: files
         uses: jitterbit/get-changed-files@v1
       - run: |
+            echo "hello" > report.txt;
             for changed_file in ${{ steps.files.outputs.all }}; 
             do
             if [[ $file == *.js ]]
             then
-              npx eslint $changed_file > report.txt 2>/dev/null
+              npx eslint $changed_file >> report.txt 2>/dev/null
 
             fi
             done
