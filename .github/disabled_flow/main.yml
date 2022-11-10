@@ -1,0 +1,148 @@
+# This is a basic workflow to help you get started with Actions
+# .github/workflows/deploy.yml
+
+name: Deploy Metaverse
+on:
+  push:
+    branches:
+      - main
+
+env:
+  Name : vrproject
+  Project_Name : metaverse-363005
+  Cluster_name : vrspace-cluster
+  Server_Name : vrspace2
+  Service_Name : vrspace-service2
+  URL: "/content/worlds/solipsisworld/movements.html" #"http://35.225.117.79/
+
+jobs:
+  unittest:        
+    name: try vm
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Install SSH Key
+          uses: shimataro/ssh-key-action@v2
+          with:
+            key: ${{ secrets.RSA_KEY }} 
+            known_hosts: 'placeholder'
+        
+        - name: Adding Known Hosts
+          run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          
+        - name: Setting up
+          uses: google-github-actions/setup-gcloud@main
+          with:
+            version: '286.0.0'
+            service_account_key: ${{ secrets.GCP_KEY }}
+            service_account_email: ${{ secrets.SERVICE_EMAIL }}
+            project_id:  ${{ env.Project_Name }}
+            
+        - name: Deploy with rsync
+          run: rsync -avz -e "ssh -p 22" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/project/${{ env.Name }} --delete
+
+
+        - name: Auth Docker
+          run: |-
+            gcloud auth configure-docker -q
+            
+        - name: Build Docker
+          run: |-
+            docker build -t vrspace .
+            
+        - name: Tag Docker
+          run: |-
+            docker tag vrspace gcr.io/${{ env.Project_Name }}/vrserver
+            
+        - name: Push Docker
+          run: |-
+            docker push gcr.io/${{ env.Project_Name }}/vrserver
+
+
+        - name: Deploy Docker
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }} 
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.RSA_KEY }} 
+            port: 22
+            script: | 
+              gcloud container clusters get-credentials ${{ env.Cluster_name }}
+              kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/vrserver
+              kubectl get pods
+              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080
+              sleep 60
+              kubectl get services ${{ env.Service_Name }} | awk '{ print $4 }' | tail -1 > temp.txt
+              /home/metaverseops/testproject/code/webapp_test.py temp.txt
+
+
+
+
+        
+        # - name: Start Server
+        #   uses: appleboy/ssh-action@master
+        #   with:
+        #     host: ${{ secrets.SSH_HOST }} 
+        #     username: ${{ secrets.SSH_USER }}
+        #     key: ${{ secrets.RSA_KEY }} 
+        #     port: 22
+        #     #TODO: add unit test script here
+        #     script: | 
+        #       /home/metaverseops/testproject/code/webapp_test.py ${{ env.URL }}
+
+              
+
+          
+          
+# #       - name: Building (🏗)
+# #         run: |-
+# #           gcloud builds submit \
+# #             --tag gcr.io/githubaction-364720/cloudaction
+            
+#       - name: Set Local Region
+#         run: |-
+#           gcloud config set compute/region us-central1
+          
+#       - name: Create Local Zone
+#         run: |-
+#           gcloud config set compute/zone us-central1-b
+
+#       - name: Auth Docker
+#         run: |-
+#           gcloud auth configure-docker -q
+          
+#       - name: Build Docker
+#         run: |-
+#           docker build -t vrspace .
+          
+#       - name: Tag Docker
+#         run: |-
+#           docker tag vrspace gcr.io/${{ env.Project_Name }}/vrserver
+          
+#       - name: Push Docker
+#         run: |-
+#           docker push gcr.io/${{ env.Project_Name }}/vrserver
+            
+#       - name: Ensure connection GKE cluster
+#         run: |-
+#           gcloud container clusters get-credentials vrspace-two
+          
+#       - name: Deploy docker image to GKE cluster
+#         run: |-
+#           kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/vrserver
+      
+      
+#       - name: Ensure that the deployment is successful
+#         run: |-
+#           kubectl get pods
+          
+#       - name: Create Service / Expose deployment to an external IP
+#         run: |-
+#           kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080
+          
+#       - name: Get external IP of the deployment
+#         run: |-
+#           kubectl get service
+            
+
