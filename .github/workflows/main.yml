@@ -47,17 +47,17 @@ jobs:
           run: |-
             gcloud auth configure-docker -q
             
-        - name: Build Docker
-          run: |-
-            docker build -t vrspace .
+#         - name: Build Docker
+#           run: |-
+#             docker build -t vrspace .
             
-        - name: Tag Docker
-          run: |-
-            docker tag vrspace gcr.io/${{ env.Project_Name }}/vrserver
+#         - name: Tag Docker
+#           run: |-
+#             docker tag vrspace gcr.io/${{ env.Project_Name }}/vrserver
             
-        - name: Push Docker
-          run: |-
-            docker push gcr.io/${{ env.Project_Name }}/vrserver
+#         - name: Push Docker
+#           run: |-
+#             docker push gcr.io/${{ env.Project_Name }}/vrserver
         - name: Deploy Docker
           uses: appleboy/ssh-action@master
           with:
@@ -75,3 +75,9 @@ jobs:
               sleep 60
               kubectl get services ${{ env.Service_Name }} | awk '{ print $4 }' | tail -1 > temp.txt
               /home/metaverseops/testproject/code/webapp_test.py temp.txt
+              
+        - name: Deploy with rsync
+          run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/testproject/code/test_reports ./
+        
+        - name: Check Result
+          run: ls
