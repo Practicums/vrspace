@@ -1,2 +1,1 @@
 display error
-content/worlds/solipsisworld/movements.js
