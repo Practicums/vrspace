@@ -26,13 +26,13 @@ jobs:
       - id: files
         uses: jitterbit/get-changed-files@v1
       - run: |
-            echo "hello" > report.txt;
+            echo "display error" > report.txt;
             for changed_file in ${{ steps.files.outputs.all }}; 
             do
             if [[ $changed_file == *.js ]]
             then
-              echo $changed_file
-              npx eslint $changed_file >> report.txt 2>/dev/null
+              echo $changed_file >> report.txt
+              npx eslint $changed_file >> report.txt || true
 
             fi
             done
