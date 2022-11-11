@@ -29,7 +29,7 @@ jobs:
             echo "hello" > report.txt;
             for changed_file in ${{ steps.files.outputs.all }}; 
             do
-            if [[ $file == *.js ]]
+            if [[ $changed_file == *.js ]]
             then
               echo $changed_file
               npx eslint $changed_file >> report.txt 2>/dev/null
