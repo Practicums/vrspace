@@ -85,4 +85,3 @@ jobs:
               cat /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/letsencrypt-issuer.yaml | sed -e "s/email: ''/email: $EMAIL/g" | kubectl apply -f-
               kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress-tls.yaml
               /home/${{ secrets.SSH_USER }}/testproject/code/webapp_test.py ${{ env.URL }}
-              /usr/bin/python3 /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/gen.py --pkgname "a.frame.application" --long "AFrame Application" --short "AF" --url "${{ env.URL }}" --path "/home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/webapp/" --html "index.html"
