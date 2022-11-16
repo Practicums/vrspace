@@ -65,7 +65,7 @@ jobs:
               sleep 10
               helm install nginx-stable/nginx-ingress --set controller.service.loadBalancerIP="${{ env.Ext_IP }}",rbac.create=true --generate-name
               kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/${{ env.Name }}
-              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --port=80 --target-port=8080 --cluster-ip=104.197.66.108
+              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080 --load-balancer-ip=104.197.66.108
               sleep 60
               kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress.yaml
               chmod +x /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh && /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh
