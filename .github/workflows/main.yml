@@ -10,10 +10,10 @@ on:
     branches: [ "master" ]
 
 env:
-  Name : vrserver
+  Name : vrspace
   Project_Name : metaverse-363005
   Cluster_name : vrspace-cluster
-  Server_Name : vrspace
+  Server_Name : vrspace-server
   Service_Name : vrspace-service
   Ext_IP: 104.154.136.216
   URL: https://vrspace.endpoints.metaverse-363005.cloud.goog 
