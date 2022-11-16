@@ -79,7 +79,7 @@ jobs:
               kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/${{ env.Name }}
               kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --port=80 --target-port=80
               sleep 60
-              kubectl apply -f ingress.yaml
+              kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress.yaml
               chmod +x /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh && /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh
               export EMAIL=${{ secrets.SERVICE_EMAIL }}
               cat /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/letsencrypt-issuer.yaml | sed -e "s/email: ''/email: $EMAIL/g" | kubectl apply -f-
