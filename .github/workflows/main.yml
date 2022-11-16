@@ -15,7 +15,9 @@ env:
   Cluster_name : vrspace-cluster
   Server_Name : vrspace
   Service_Name : vrspace-service
-  URL: "/content/worlds/solipsisworld/movements.html" 
+  Ext_IP: 104.154.136.216
+  URL: https://vrspace.endpoints.metaverse-363005.cloud.goog 
+  pkgname: vr.ball.application
 
 jobs:
   build_deploy_test:
@@ -39,23 +41,27 @@ jobs:
             service_account_key: ${{ secrets.GCP_KEY }}
             service_account_email: ${{ secrets.SERVICE_EMAIL }}
             project_id:  ${{ env.Project_Name }}
-            
-        - name: Auth Docker
+
+        - name: Copy files to remote vm
+          run: rsync -avz -e "ssh -p 22" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/project/${{ env.Name }} --delete
+
+        - name: Authenticate Docker
           run: |-
             gcloud auth configure-docker -q
             
-        - name: Build Docker
+        - name: Build Docker Image
           run: |-
             docker build -t vrspace .
             
-        - name: Tag Docker
+        - name: Tag Docker Image
           run: |-
-            docker tag vrspace gcr.io/${{ env.Project_Name }}/vrserver
+            docker tag vrspace gcr.io/${{ env.Project_Name }}/${{ env.Name }}
             
-        - name: Push Docker
+        - name: Push Docker Image
           run: |-
-            docker push gcr.io/${{ env.Project_Name }}/vrserver
-        - name: Deploy Docker
+            docker push gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+            
+        - name: Deploy Docker Image and push as HTTPS
           uses: appleboy/ssh-action@master
           with:
             host: ${{ secrets.SSH_HOST }} 
@@ -63,14 +69,20 @@ jobs:
             key: ${{ secrets.RSA_KEY }} 
             port: 22
             script: | 
+              gcloud endpoints services deploy /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/openapi.yaml 
               gcloud container clusters create ${{ env.Cluster_name }} 2> /dev/null
-              gcloud container clusters get-credentials ${{ env.Cluster_name }} 
-              kubectl delete deployment ${{ env.Server_Name }}
+              gcloud container clusters get-credentials ${{ env.Cluster_name }}
               kubectl delete service ${{ env.Service_Name }} 
+              kubectl delete deployment ${{ env.Server_Name }}
               sleep 10
+              helm install nginx-stable/nginx-ingress --set controller.service.loadBalancerIP="${{ env.Ext_IP }}",rbac.create=true --generate-name
               kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/${{ env.Name }}
-              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080
+              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --port=80 --target-port=80
               sleep 60
-              kubectl get services ${{ env.Service_Name }} | awk '{ print $4 }' | tail -1 > temp.txt
-              echo -n ${{ env.URL }} >> temp.txt
-              /home/metaverseops/testproject/code/webapp_test.py temp.txt
+              kubectl apply -f ingress.yaml
+              chmod +x /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh && /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh
+              export EMAIL=${{ secrets.SERVICE_EMAIL }}
+              cat /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/letsencrypt-issuer.yaml | sed -e "s/email: ''/email: $EMAIL/g" | kubectl apply -f-
+              kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress-tls.yaml
+              /home/${{ secrets.SSH_USER }}/testproject/code/webapp_test.py ${{ env.URL }}
+              /usr/bin/python3 /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/gen.py --pkgname "a.frame.application" --long "AFrame Application" --short "AF" --url "${{ env.URL }}" --path "/home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/webapp/" --html "index.html"
