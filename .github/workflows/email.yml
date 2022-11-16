@@ -23,7 +23,7 @@ jobs:
           #
           #  * smtp://user:password@server:port
           #  * smtp+starttls://user:password@server:port
-          connection_url: smtp://metaverse-testing@outlook.com:makabaka!@smtp-mail.outlook.com:587
+          connection_url: smtp://${{secret.email_sender}}:${{secret.email_password}}@smtp-mail.outlook.com:587
           # Required mail server address if not connection_url:
           server_address: smtp-mail.outlook.com
           # Server port, default 25:
@@ -39,7 +39,7 @@ jobs:
           # Required recipients' addresses:
           to:  elina.ding@outlook.com
           # Required sender full name (address can be skipped):
-          from: Luke Skywalker # <user@example.com>
+          from: Metaverse CICD Developer # <user@example.com>
           # Optional plain body:
           body: Build job of ${{github.repository}} completed successfully!
           # # Optional HTML body read from file:
