@@ -41,7 +41,7 @@ jobs:
         id: report
         uses: juliangruber/read-file-action@v1
         with:
-        path: ./report.txt
+          path: ./report.txt
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
