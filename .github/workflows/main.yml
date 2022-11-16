@@ -1,5 +1,5 @@
 # This is a workflow to build, deploy and test A-Frame applications.
-name: Solipsisworld Deployment Pipeline
+name: VRspace Deployment Pipeline
 
 # Controls when the workflow will run
 on:
@@ -85,3 +85,6 @@ jobs:
               cat /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/letsencrypt-issuer.yaml | sed -e "s/email: ''/email: $EMAIL/g" | kubectl apply -f-
               kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress-tls.yaml
               /home/${{ secrets.SSH_USER }}/testproject/code/webapp_test.py ${{ env.URL }}
+              /usr/bin/python3 /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/gen.py --pkgname "${{ env.pkgname }}" --long "AFrame Application" --short "AF" --url "${{ env.URL }}" --path "/home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/content/worlds/solipsisworld/" --html "movements.html"
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'del .\Documents\manifest.json && wget ${{ env.URL }}/manifest.json -o .\Documents\manifest.json && ovr-platform-util.exe create-pwa -o .\Documents\output.apk --android-sdk %androidsdk% --package-name ${{ env.pkgname }} --manifest-content-file .\Documents\manifest.json'
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt scp -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }}:Documents/output.apk /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk
