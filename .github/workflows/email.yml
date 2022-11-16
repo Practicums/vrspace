@@ -23,7 +23,7 @@ jobs:
           #
           #  * smtp://user:password@server:port
           #  * smtp+starttls://user:password@server:port
-          connection_url: smtp://${{secret.email_sender}}:${{secret.email_password}}@smtp-mail.outlook.com:587
+          connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp-mail.outlook.com:587
           # Required mail server address if not connection_url:
           server_address: smtp-mail.outlook.com
           # Server port, default 25:
