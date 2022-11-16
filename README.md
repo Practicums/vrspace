@@ -58,7 +58,6 @@ Because we keep a record of the camera movement and position, we can move object
    4. java -jar server-0.4.7-SNAPSHOT.jar
 8. Open http://localhost:8080/content/worlds/solipsisworld/movements.html
 
-
 ## Deploying the software to Google Cloud
 
 In this part, we will deploy the VRSpace server to Google cloud Kubernetes cluster. 
