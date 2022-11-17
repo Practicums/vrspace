@@ -1,7 +1,7 @@
 {
     "name":"VRspace Application",
     "short_name":"VRspace",
-    "start_url":"https://vrspace.endpoints.metaverse-363005.cloud.goog/",
+    "start_url":"https://vrspace.endpoints.metaverse-363005.cloud.goog/content/worlds/solipsisworld/movements.html",
     "background_color":"#fff",
     "theme_color":"#2d0",
     "ovr_package_name":"our.ball.app",
