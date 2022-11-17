@@ -1,23 +1,30 @@
-# This is a basic workflow to help you get started with Actions
-# .github/workflows/deploy.yml
 
-name: Deploy Metaverse
+# This is a workflow to build, deploy and test A-Frame applications.
+name: VRspace Deployment Pipeline
+
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches:
-      - main
+    branches: 
+      - master
+      - lint-test
+  pull_request:
+    branches: [ "master" ]
 
 env:
-  Name : vrproject
+  Name : vrspace
   Project_Name : metaverse-363005
   Cluster_name : vrspace-cluster
-  Server_Name : vrspace2
-  Service_Name : vrspace-service2
-  URL: "/content/worlds/solipsisworld/movements.html" #"http://35.225.117.79/
+  Server_Name : vrspace-server
+  Service_Name : vrspace-service
+  Ext_IP: 104.154.136.216
+  URL: https://vrspace.endpoints.metaverse-363005.cloud.goog 
+  pkgname: vr.ball.application
+  req_path: /content/worlds/solipsisworld/movements.html
 
 jobs:
-  unittest:        
-    name: try vm
+  build_deploy_test:
     runs-on: ubuntu-latest
     steps:
         - name: Checkout
@@ -32,35 +39,32 @@ jobs:
           run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           
         - name: Setting up
-          uses: google-github-actions/setup-gcloud@main
+          uses: google-github-actions/setup-gcloud@v0
           with:
             version: '286.0.0'
             service_account_key: ${{ secrets.GCP_KEY }}
             service_account_email: ${{ secrets.SERVICE_EMAIL }}
             project_id:  ${{ env.Project_Name }}
-            
-        - name: Deploy with rsync
-          run: rsync -avz -e "ssh -p 22" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/project/${{ env.Name }} --delete
 
+        - name: Copy files to remote vm
+          run: rsync -avz -e "ssh -p 22" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/project/${{ env.Name }} --delete
 
-        - name: Auth Docker
+        - name: Authenticate Docker
           run: |-
             gcloud auth configure-docker -q
-            
-        - name: Build Docker
+        - name: Build Docker Image
           run: |-
             docker build -t vrspace .
             
-        - name: Tag Docker
+        - name: Tag Docker Image
           run: |-
-            docker tag vrspace gcr.io/${{ env.Project_Name }}/vrserver
+            docker tag vrspace gcr.io/${{ env.Project_Name }}/${{ env.Name }}
             
-        - name: Push Docker
+        - name: Push Docker Image
           run: |-
-            docker push gcr.io/${{ env.Project_Name }}/vrserver
-
-
-        - name: Deploy Docker
+            docker push gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+            
+        - name: Deploy Docker Image and push as HTTPS
           uses: appleboy/ssh-action@master
           with:
             host: ${{ secrets.SSH_HOST }} 
@@ -68,81 +72,27 @@ jobs:
             key: ${{ secrets.RSA_KEY }} 
             port: 22
             script: | 
+              gcloud endpoints services deploy /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/openapi.yaml 
+              gcloud container clusters create ${{ env.Cluster_name }} 2> /dev/null
               gcloud container clusters get-credentials ${{ env.Cluster_name }}
-              kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/vrserver
-              kubectl get pods
-              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080
+              kubectl delete service ${{ env.Service_Name }} 
+              kubectl delete deployment ${{ env.Server_Name }}
+              sleep 10
+              helm install nginx-stable/nginx-ingress --set controller.service.loadBalancerIP="${{ env.Ext_IP }}",rbac.create=true --generate-name
+              kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080 --load-balancer-ip=104.197.66.108
               sleep 60
-              kubectl get services ${{ env.Service_Name }} | awk '{ print $4 }' | tail -1 > temp.txt
-              /home/metaverseops/testproject/code/webapp_test.py temp.txt
-
-
-
-
-        
-        # - name: Start Server
-        #   uses: appleboy/ssh-action@master
-        #   with:
-        #     host: ${{ secrets.SSH_HOST }} 
-        #     username: ${{ secrets.SSH_USER }}
-        #     key: ${{ secrets.RSA_KEY }} 
-        #     port: 22
-        #     #TODO: add unit test script here
-        #     script: | 
-        #       /home/metaverseops/testproject/code/webapp_test.py ${{ env.URL }}
-
-              
-
-          
-          
-# #       - name: Building (🏗)
-# #         run: |-
-# #           gcloud builds submit \
-# #             --tag gcr.io/githubaction-364720/cloudaction
-            
-#       - name: Set Local Region
-#         run: |-
-#           gcloud config set compute/region us-central1
-          
-#       - name: Create Local Zone
-#         run: |-
-#           gcloud config set compute/zone us-central1-b
-
-#       - name: Auth Docker
-#         run: |-
-#           gcloud auth configure-docker -q
-          
-#       - name: Build Docker
-#         run: |-
-#           docker build -t vrspace .
-          
-#       - name: Tag Docker
-#         run: |-
-#           docker tag vrspace gcr.io/${{ env.Project_Name }}/vrserver
-          
-#       - name: Push Docker
-#         run: |-
-#           docker push gcr.io/${{ env.Project_Name }}/vrserver
-            
-#       - name: Ensure connection GKE cluster
-#         run: |-
-#           gcloud container clusters get-credentials vrspace-two
-          
-#       - name: Deploy docker image to GKE cluster
-#         run: |-
-#           kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/vrserver
-      
-      
-#       - name: Ensure that the deployment is successful
-#         run: |-
-#           kubectl get pods
-          
-#       - name: Create Service / Expose deployment to an external IP
-#         run: |-
-#           kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080
-          
-#       - name: Get external IP of the deployment
-#         run: |-
-#           kubectl get service
-            
-
+              kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress.yaml
+              chmod +x /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh && /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh
+              export EMAIL=${{ secrets.SERVICE_EMAIL }}
+              cat /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/letsencrypt-issuer.yaml | sed -e "s/email: ''/email: $EMAIL/g" | kubectl apply -f-
+              kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress-tls.yaml
+              sleep 30
+              echo -n ${{ env.URL }} > ~/temp.txt
+              echo -n ${{ env.req_path }} >> ~/temp.txt
+              /home/${{ secrets.SSH_USER }}/testproject/code/webapp_test.py $(<~/temp.txt)
+              /usr/bin/python3 /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/gen.py --pkgname "${{ env.pkgname }}" --long "VRspace Application" --short "VR" --url "${{ env.URL }}" --path "/home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/content/worlds/solipsisworld/" --html "movements.html"
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'mkdir .\Documents\${{ env.Name }}'
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'del .\Documents\${{ env.Name }}\* /S /Q'
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'wget ${{ env.URL }}/manifest.json -P .\Documents\${{ env.Name }} && ovr-platform-util.exe create-pwa -o .\Documents\${{ env.Name }}\output.apk --android-sdk %androidsdk% --package-name ${{ env.pkgname }} --manifest-content-file .\Documents\${{ env.Name }}\manifest.json'
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt scp -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }}:Documents/${{ env.Name }}/output.apk /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk
