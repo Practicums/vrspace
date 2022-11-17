@@ -90,7 +90,6 @@ jobs:
               sleep 30
               echo -n ${{ env.URL }} > ~/temp.txt
               echo -n ${{ env.req_path }} >> ~/temp.txt
-              echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
               /home/${{ secrets.SSH_USER }}/testproject/code/webapp_test.py $(<~/temp.txt) > report_url.txt
               # /usr/bin/python3 /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/gen.py --pkgname "${{ env.pkgname }}" --long "VRspace Application" --short "VR" --url "${{ env.URL }}" --path "/home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/content/worlds/solipsisworld/" --html "movements.html"
               # /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'mkdir .\Documents\${{ env.Name }}'
@@ -102,4 +101,4 @@ jobs:
           run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/report_url.txt ./
 
         - name: Get Test Result from VM
-          run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/testproject/code/test_reports/(cat report_url.txt).html ./
+          run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) ./
