@@ -101,7 +101,7 @@ jobs:
           run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/report_url.txt ./
 
         - name: Get Test Result from VM
-          run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) ./test_result.html
+          run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) ./black_box.html
 
 
         # for sending emails
@@ -111,21 +111,18 @@ jobs:
         - id: files
           uses: jitterbit/get-changed-files@v1
         - run: |
-              echo "display error" > report.txt;
+              echo "<!DOCTYPE html><html><body>" > white_box.html
               for changed_file in ${{ steps.files.outputs.all }}; 
               do
               if [[ $changed_file == *.js ]]
               then
-                echo $changed_file >> report.txt
-                npx eslint $changed_file >> report.txt || true
+                echo $changed_file >> white_box.html
+                npx eslint $changed_file >> white_box.html || true
               fi
               done
+              echo "</body></html>" >> white_box.html
 
-        - name: Read Report
-          id: report
-          uses: juliangruber/read-file-action@v1
-          with:
-            path: ./report.txt
+
 
         - name: Send mail
           uses: dawidd6/action-send-mail@v3
@@ -143,7 +140,6 @@ jobs:
             # Required sender full name (address can be skipped):
             from: Metaverse CICD Developer # <user@example.com>
             # Optional plain body:
-            body:  ${{ steps.report.outputs.content }}
             html_body: file://${{ github.workspace }}/test_result.html
             ignore_cert: true
 
