@@ -103,49 +103,47 @@ jobs:
         - name: Get Test Result from VM
           run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) ./test_result.html
 
-        name: PULL
 
+        # for sending emails
+        - name: Install Node.js dependencies
+          run: npm ci
+        
+        - id: files
+          uses: jitterbit/get-changed-files@v1
+        - run: |
+              echo "display error" > report.txt;
+              for changed_file in ${{ steps.files.outputs.all }}; 
+              do
+              if [[ $changed_file == *.js ]]
+              then
+                echo $changed_file >> report.txt
+                npx eslint $changed_file >> report.txt || true
+              fi
+              done
 
-      # for sending emails
-      - name: Install Node.js dependencies
-        run: npm ci
-      
-      - id: files
-        uses: jitterbit/get-changed-files@v1
-      - run: |
-            echo "display error" > report.txt;
-            for changed_file in ${{ steps.files.outputs.all }}; 
-            do
-            if [[ $changed_file == *.js ]]
-            then
-              echo $changed_file >> report.txt
-              npx eslint $changed_file >> report.txt || true
-            fi
-            done
+        - name: Read Report
+          id: report
+          uses: juliangruber/read-file-action@v1
+          with:
+            path: ./report.txt
 
-      - name: Read Report
-        id: report
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./report.txt
-
-      - name: Send mail
-        uses: dawidd6/action-send-mail@v3
-        with:
-          connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp-mail.outlook.com:587
-          # Required mail server address if not connection_url:
-          server_address: smtp-mail.outlook.com
-          # Server port, default 25:
-          server_port: 587
-          # Optional whether this connection use TLS (default is true if server_port is 465)
-          secure: true
-          subject: Github Actions job result
-          # Required recipients' addresses:
-          to:  elina.ding@outlook.com
-          # Required sender full name (address can be skipped):
-          from: Metaverse CICD Developer # <user@example.com>
-          # Optional plain body:
-          body:  ${{ steps.report.outputs.content }}
-          html_body: ./test_result.html
-          ignore_cert: true
+        - name: Send mail
+          uses: dawidd6/action-send-mail@v3
+          with:
+            connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp-mail.outlook.com:587
+            # Required mail server address if not connection_url:
+            server_address: smtp-mail.outlook.com
+            # Server port, default 25:
+            server_port: 587
+            # Optional whether this connection use TLS (default is true if server_port is 465)
+            secure: true
+            subject: Github Actions job result
+            # Required recipients' addresses:
+            to:  elina.ding@outlook.com
+            # Required sender full name (address can be skipped):
+            from: Metaverse CICD Developer # <user@example.com>
+            # Optional plain body:
+            body:  ${{ steps.report.outputs.content }}
+            html_body: ./test_result.html
+            ignore_cert: true
 
