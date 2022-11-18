@@ -124,8 +124,11 @@ jobs:
                 count=$((count + 1))
               fi
               done
-              echo count
-              echo "</body></html>" >> white_box.html
+
+              if [[ $count == 0 ]]
+              then
+                echo "<div><h5> No Eslint Error! <h5></div>" >> white_box.html
+              echo "<br><br><br></body></html>" >> white_box.html
 
         - name: Concat Html
           run: cat white_box.html black_box.html > test_result.html
