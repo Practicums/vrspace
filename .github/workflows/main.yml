@@ -144,6 +144,6 @@ jobs:
             from: Metaverse CICD Developer # <user@example.com>
             # Optional plain body:
             body:  ${{ steps.report.outputs.content }}
-            html_body: file://test_result.html
+            html_body: file://${{ github.workspace }}/test_result.html
             ignore_cert: true
 
