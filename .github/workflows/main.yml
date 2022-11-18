@@ -112,6 +112,7 @@ jobs:
           uses: jitterbit/get-changed-files@v1
         - run: |
               echo "<!DOCTYPE html><html><body>" > white_box.html
+              echo "<h1>test, test!</h1>" >> white_box.html
               for changed_file in ${{ steps.files.outputs.all }}; 
               do
               if [[ $changed_file == *.js ]]
