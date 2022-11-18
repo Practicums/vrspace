@@ -126,25 +126,22 @@ jobs:
           - name: Concat Html
             run: cat white_box.html black_box.html > test_result.html
 
-
-      
-
-        - name: Send mail
-          uses: dawidd6/action-send-mail@v3
-          with:
-            connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp-mail.outlook.com:587
-            # Required mail server address if not connection_url:
-            server_address: smtp-mail.outlook.com
-            # Server port, default 25:
-            server_port: 587
-            # Optional whether this connection use TLS (default is true if server_port is 465)
-            secure: true
-            subject: Github Actions job result
-            # Required recipients' addresses:
-            to:  elina.ding@outlook.com
-            # Required sender full name (address can be skipped):
-            from: Metaverse CICD Developer # <user@example.com>
-            # Optional plain body:
-            html_body: file://${{ github.workspace }}/test_result.html
-            ignore_cert: true
+          - name: Send mail
+            uses: dawidd6/action-send-mail@v3
+            with:
+              connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp-mail.outlook.com:587
+              # Required mail server address if not connection_url:
+              server_address: smtp-mail.outlook.com
+              # Server port, default 25:
+              server_port: 587
+              # Optional whether this connection use TLS (default is true if server_port is 465)
+              secure: true
+              subject: Github Actions job result
+              # Required recipients' addresses:
+              to:  elina.ding@outlook.com
+              # Required sender full name (address can be skipped):
+              from: Metaverse CICD Developer # <user@example.com>
+              # Optional plain body:
+              html_body: file://${{ github.workspace }}/test_result.html
+              ignore_cert: true
 
