@@ -113,7 +113,7 @@ jobs:
         - run: |
               echo "<!DOCTYPE html><html><body>" > white_box.html
               echo "<h2>Eslint testing Result</h2>" >> white_box.html
-              count = 0
+              count = $((0))
               for changed_file in ${{ steps.files.outputs.added }}; 
               do
               if [[ $changed_file == *.js ]]
@@ -121,9 +121,10 @@ jobs:
                 echo "<h5> $changed_file <h5>" >> white_box.html
                 npx eslint $changed_file >> white_box.html || true
                 echo "<br>" >> white_box.html || true
-                count += 1
+                count = $((count + 1))
               fi
               done
+              echo count
               echo "</body></html>" >> white_box.html
 
         - name: Concat Html
