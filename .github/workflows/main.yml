@@ -112,13 +112,16 @@ jobs:
           uses: jitterbit/get-changed-files@v1
         - run: |
               echo "<!DOCTYPE html><html><body>" > white_box.html
-              echo "<h1>test, test!</h1>" >> white_box.html
+              echo "<h2>Eslint testing Result</h2>" >> white_box.html
+              len=${ #${{ steps.files.outputs.all }}[@] }
+              echo len
               for changed_file in ${{ steps.files.outputs.all }}; 
               do
               if [[ $changed_file == *.js ]]
               then
-                echo $changed_file >> white_box.html
+                echo "<h5> $changed_file <h5>" >> white_box.html
                 npx eslint $changed_file >> white_box.html || true
+                echo "<br>" >> white_box.html || true
               fi
               done
               echo "</body></html>" >> white_box.html
