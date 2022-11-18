@@ -123,7 +123,11 @@ jobs:
               done
               echo "</body></html>" >> white_box.html
 
+          - name: Concat Html
+            run: cat white_box.html black_box.html > test_result.html
 
+
+      
 
         - name: Send mail
           uses: dawidd6/action-send-mail@v3
