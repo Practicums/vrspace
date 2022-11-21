@@ -43,7 +43,7 @@ jobs:
             python-version: '3.9'
             cache: 'pip' # caching pip dependencies
             cache-dependency-path: 'white_box_test_html/requirements.txt'
-        -run: pip install -r white_box_test_html/requirements.txt
+        - run: pip install -r white_box_test_html/requirements.txt
         
         - name: Adding Known Hosts
           run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
@@ -116,8 +116,6 @@ jobs:
         - name: Install Node.js dependencies
           run: npm ci
         
-
-
         - name: Get Test Result from VM
           run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) ./white_box_test_html/test_result.html
       
