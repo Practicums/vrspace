@@ -120,7 +120,6 @@ jobs:
         - name: Get Test Result from VM
           run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) git_action_requirement/white_box_html/test_result.html
       
-
         - name: build white box structure
           run: python git_action_requirement/white_box_html/white_struct.py   
           
@@ -128,8 +127,9 @@ jobs:
           uses: jitterbit/get-changed-files@v1
         - run: |
               count=$((0))
-              for changed_file in ${{ steps.files.outputs.added }}; 
+              for changed_file in ${{ steps.files.outputs.added_modified }}
               do
+              echo $changed_file
               if [[ $changed_file == *.js ]]
               then
                 echo "$changed_file" > error.txt
@@ -145,8 +145,6 @@ jobs:
                 python git_action_requirement/white_box_html/insert_white_box.py
               fi
            
-
-
 
         # - name: Concat Html
         #   run: cat white_box.html black_box.html > test_result.html
