@@ -121,10 +121,10 @@ jobs:
 
         
         - name: download parser
-        - run: pip install beautifulsoup4
+          run: pip install beautifulsoup4
 
         - name: build white box structure
-        - run: python white_box_test_html/white_struct.py   
+          run: python white_box_test_html/white_struct.py   
           
         - id: files
           uses: jitterbit/get-changed-files@v1
