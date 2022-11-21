@@ -48,8 +48,9 @@ jobs:
             cache-dependency-path: 'git_action_requirement/white_box_html/requirements.txt'
         - run: pip install -r git_action_requirement/white_box_html/requirements.txt
 
+
         
-        - name: Setting up Goohlr Cloud
+        - name: Setting up Google Cloud
           uses: google-github-actions/setup-gcloud@v0
           with:
             version: '286.0.0'
@@ -115,7 +116,10 @@ jobs:
 
         # for sending emails
         - name: Install Node.js dependencies
-          run: npm ci
+          run: |
+              cp git_action_requirement/eslint/package-lock.json ./package-lock.json
+              cp git_action_requirement/eslint/package.json ./package.json
+              npm ci
         
         - name: Get Test Result from VM
           run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) git_action_requirement/white_box_html/test_result.html
