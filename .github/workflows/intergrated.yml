@@ -33,6 +33,12 @@ jobs:
           with:
             key: ${{ secrets.RSA_KEY }} 
             known_hosts: 'placeholder'
+
+        - name: Install Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.9'
+            cache: 'pip' # caching pip dependencies
         
         - name: Adding Known Hosts
           run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
@@ -111,10 +117,8 @@ jobs:
         - name: Get Test Result from VM
           run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) ./white_box_test_html/test_result.html
       
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.9'
-            cache: 'pip' # caching pip dependencies
+
+
         
         - name: download parser
         - run: pip install beautifulsoup4
