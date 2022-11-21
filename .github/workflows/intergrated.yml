@@ -28,27 +28,28 @@ jobs:
     steps:
         - name: Checkout
           uses: actions/checkout@v2
+
+        # install key for rsynch and vm
         - name: Install SSH Key
           uses: shimataro/ssh-key-action@v2
           with:
             key: ${{ secrets.RSA_KEY }} 
             known_hosts: 'placeholder'
+        - run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
         - name: download requirement for white box
-          run: git clone https://github.com/ginalined/white_box_test_html.git
+          run: git clone https://github.com/Practicums/git_action_requirement.git
 
         - name: Install Python
           uses: actions/setup-python@v4
           with:
             python-version: '3.9'
             cache: 'pip' # caching pip dependencies
-            cache-dependency-path: 'white_box_test_html/requirements.txt'
-        - run: pip install -r white_box_test_html/requirements.txt
+            cache-dependency-path: 'git_action_requirement/white_box_html/requirements.txt'
+        - run: pip install -r git_action_requirement/white_box_html/requirements.txt
+
         
-        - name: Adding Known Hosts
-          run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          
-        - name: Setting up
+        - name: Setting up Goohlr Cloud
           uses: google-github-actions/setup-gcloud@v0
           with:
             version: '286.0.0'
@@ -117,11 +118,11 @@ jobs:
           run: npm ci
         
         - name: Get Test Result from VM
-          run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) ./white_box_test_html/test_result.html
+          run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) git_action_requirement/white_box_html/test_result.html
       
 
         - name: build white box structure
-          run: python white_box_test_html/white_struct.py   
+          run: python git_action_requirement/white_box_html/white_struct.py   
           
         - id: files
           uses: jitterbit/get-changed-files@v1
@@ -133,7 +134,7 @@ jobs:
               then
                 echo "$changed_file" > error.txt
                 npx eslint $changed_file >> error.txt || true
-                python white_box_test_html/insert_white_box.py
+                python git_action_requirement/white_box_html/insert_white_box.py
                 count=$((count + 1))
               fi
               done
@@ -141,7 +142,7 @@ jobs:
               if [[ $count == 0 ]]
               then
                 echo "No Error" > error.txt
-                python white_box_test_html/insert_white_box.py
+                python git_action_requirement/white_box_html/insert_white_box.py
               fi
            
 
@@ -166,6 +167,6 @@ jobs:
             # Required sender full name (address can be skipped):
             from: Metaverse CICD Developer # <user@example.com>
             # Optional plain body:
-            html_body: file://${{ github.workspace }}/white_box_test_html/test_changed.html
+            html_body: file://${{ github.workspace }}/git_action_requirement/white_box_html/test_changed.html
             ignore_cert: true
 
