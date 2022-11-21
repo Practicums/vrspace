@@ -119,6 +119,8 @@ jobs:
           run: |
               cp git_action_requirement/eslint/package-lock.json ./package-lock.json
               cp git_action_requirement/eslint/package.json ./package.json
+              cp git_action_requirement/eslint/.eslintrc.json ./.eslintrc.json
+              
               npm ci
         
         - name: Get Test Result from VM
