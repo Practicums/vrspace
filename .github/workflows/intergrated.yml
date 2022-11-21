@@ -34,11 +34,15 @@ jobs:
             key: ${{ secrets.RSA_KEY }} 
             known_hosts: 'placeholder'
 
+        - name: download requirement for white box
+          run: git clone https://github.com/ginalined/white_box_test_html.git
+
         - name: Install Python
           uses: actions/setup-python@v4
           with:
             python-version: '3.9'
             cache: 'pip' # caching pip dependencies
+        -run: pip install beautifulsoup4
         
         - name: Adding Known Hosts
           run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
@@ -111,17 +115,11 @@ jobs:
         - name: Install Node.js dependencies
           run: npm ci
         
-        - name: download requirement for white box
-          run: git clone https://github.com/ginalined/white_box_test_html.git
+
 
         - name: Get Test Result from VM
           run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) ./white_box_test_html/test_result.html
       
-
-
-        
-        - name: download parser
-          run: pip install beautifulsoup4
 
         - name: build white box structure
           run: python white_box_test_html/white_struct.py   
