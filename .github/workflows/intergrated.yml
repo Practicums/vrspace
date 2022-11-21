@@ -141,7 +141,7 @@ jobs:
               if [[ $count == 0 ]]
               then
                 echo "No Error" > error.txt
-                python insert_white_box.py
+                python white_box_test_html/insert_white_box.py
               fi
            
 
