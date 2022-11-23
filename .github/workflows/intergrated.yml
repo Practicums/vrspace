@@ -109,6 +109,7 @@ jobs:
               /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'del .\Documents\${{ env.Name }}\* /S /Q'
               /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'wget ${{ env.URL }}/manifest.json -P .\Documents\${{ env.Name }} && ovr-platform-util.exe create-pwa -o .\Documents\${{ env.Name }}\output.apk --android-sdk %androidsdk% --package-name ${{ env.pkgname }} --manifest-content-file .\Documents\${{ env.Name }}\manifest.json'
               /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt scp -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }}:Documents/${{ env.Name }}/output.apk /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk
+              sleep 60
 
         
         - name: Get Name File from VM
