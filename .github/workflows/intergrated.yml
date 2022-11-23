@@ -111,7 +111,9 @@ jobs:
         #       # /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt scp -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }}:Documents/${{ env.Name }}/output.apk /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk
         
         - name: Get Name File from VM
-          run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/report_url.txt ./
+          run: |
+              rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/report_url.txt ./
+              cat report_url.txt
 
 
         # for sending emails
