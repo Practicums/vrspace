@@ -116,8 +116,8 @@ jobs:
           run: |
               sleep 20
               rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/report_url.txt ./
+              rsync -avz -e "ssh -p 22"  /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk ./
               cat report_url.txt
-              tar -zcvf app.tgz /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk
 
 
         # for sending emails
@@ -178,6 +178,6 @@ jobs:
             from: Metaverse CICD Developer # <user@example.com>
             # Optional plain body:
             html_body: file://${{ github.workspace }}/git_action_requirement/white_box_html/test_changed.html
-            attachments: app.tgz
+            attachments: output.apk
             ignore_cert: true
 
