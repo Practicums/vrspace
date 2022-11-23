@@ -116,7 +116,7 @@ jobs:
           run: |
               sleep 20
               rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/report_url.txt ./
-              rsync -avz -e "ssh -p 22"  /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk ./
+              rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk ./
               cat report_url.txt
 
 
