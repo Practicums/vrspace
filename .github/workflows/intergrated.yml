@@ -65,17 +65,17 @@ jobs:
           run: |-
             gcloud auth configure-docker -q
 
-        - name: Build Docker Image
-          run: |-
-            docker build -t vrspace .
+        # - name: Build Docker Image
+        #   run: |-
+        #     docker build -t vrspace .
             
-        - name: Tag Docker Image
-          run: |-
-            docker tag vrspace gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+        # - name: Tag Docker Image
+        #   run: |-
+        #     docker tag vrspace gcr.io/${{ env.Project_Name }}/${{ env.Name }}
             
-        - name: Push Docker Image
-          run: |-
-            docker push gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+        # - name: Push Docker Image
+        #   run: |-
+        #     docker push gcr.io/${{ env.Project_Name }}/${{ env.Name }}
             
         - name: Deploy Docker Image and push as HTTPS
           uses: appleboy/ssh-action@master
@@ -175,6 +175,6 @@ jobs:
             from: Metaverse CICD Developer # <user@example.com>
             # Optional plain body:
             html_body: file://${{ github.workspace }}/git_action_requirement/white_box_html/test_changed.html
-            attachments: git_action_requirement/white_box_html/test_changed.html
+            attachments: git_action_requirement/white_box_html/test_changed.html, /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk
             ignore_cert: true
 
