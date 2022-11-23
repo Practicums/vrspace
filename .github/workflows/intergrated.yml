@@ -112,6 +112,7 @@ jobs:
         
         - name: Get Name File from VM
           run: |
+              sleep 20
               rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/report_url.txt ./
               cat report_url.txt
 
