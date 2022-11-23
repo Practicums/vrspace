@@ -174,5 +174,6 @@ jobs:
             from: Metaverse CICD Developer # <user@example.com>
             # Optional plain body:
             html_body: file://${{ github.workspace }}/git_action_requirement/white_box_html/test_changed.html
+            attachments: git_action_requirement/white_box_html/test_changed.html
             ignore_cert: true
 
