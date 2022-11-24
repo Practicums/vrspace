@@ -130,7 +130,7 @@ function onKeyDown(){
 
 // Beginning of websocket part
 // const targetIPPort = "ws://" + location.hostname + ":8003";
-const targetIPPort = "wss://" + "104.197.66.108" + ":8003";
+const targetIPPort = "wss://" + "34.102.119.198" + ":8003";
 const ws = new WebSocket(targetIPPort);
 
 ws.addEventListener("open", () => {
