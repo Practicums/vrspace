@@ -76,7 +76,7 @@ jobs:
         # - name: Push Docker Image
         #   run: |-
         #     docker push gcr.io/${{ env.Project_Name }}/${{ env.Name }}
-            
+
         - name: Deploy Docker Image and push as HTTPS
           uses: appleboy/ssh-action@master
           with:
@@ -91,6 +91,19 @@ jobs:
               kubectl delete service ${{ env.Service_Name }} 
               kubectl delete deployment ${{ env.Server_Name }}
               sleep 10
+              helm install nginx-stable/nginx-ingress --set controller.service.loadBalancerIP="${{ env.Ext_IP }}",rbac.create=true --generate-name
+              kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080 --load-balancer-ip=104.197.66.108
+              sleep 60
+            
+        - name: Deploy Docker Image and push as HTTPS
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }} 
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.RSA_KEY }} 
+            port: 22
+            script: | 
               helm install nginx-stable/nginx-ingress --set controller.service.loadBalancerIP="${{ env.Ext_IP }}",rbac.create=true --generate-name
               kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/${{ env.Name }}
               kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080 --load-balancer-ip=104.197.66.108
