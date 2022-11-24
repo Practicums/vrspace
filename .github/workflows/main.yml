@@ -11,6 +11,8 @@ on:
 
 env:
   Name : vrspace
+  Region: us-west2
+  Zone: us-west2-a
   Project_Name : metaverse-363005
   Cluster_name : vrspace-cluster
   Server_Name : vrspace-server
@@ -70,8 +72,10 @@ jobs:
             key: ${{ secrets.RSA_KEY }} 
             port: 22
             script: | 
+              gcloud config set compute/region ${{ env.Region }}
+              gcloud config set compute/zone ${{ env.Zone }}
               gcloud endpoints services deploy /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/openapi.yaml 
-              gcloud container clusters create ${{ env.Cluster_name }} 2> /dev/null
+              gcloud container clusters create ${{ env.Cluster_name }} --zone ${{ env.Zone }} 2> /dev/null
               gcloud container clusters get-credentials ${{ env.Cluster_name }}
               kubectl delete service ${{ env.Service_Name }} 
               kubectl delete deployment ${{ env.Server_Name }}
