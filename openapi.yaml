@@ -9,7 +9,7 @@ x-google-allow: all
 x-google-endpoints:
 - name: "vrspace.endpoints.metaverse-363005.cloud.goog"
   allowCors: true
-  target: 104.154.136.216
+  target: 35.236.44.169
 consumes:
 - "application/json"
 produces:
