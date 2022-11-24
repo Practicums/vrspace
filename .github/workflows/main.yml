@@ -89,7 +89,7 @@ jobs:
               export EMAIL=${{ secrets.SERVICE_EMAIL }}
               cat /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/letsencrypt-issuer.yaml | sed -e "s/email: ''/email: $EMAIL/g" | kubectl apply -f-
               kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress-tls.yaml
-              sleep 30
+              sleep 60
               echo -n ${{ env.URL }} > ~/temp.txt
               echo -n ${{ env.req_path }} >> ~/temp.txt
               /home/${{ secrets.SSH_USER }}/testproject/code/webapp_test.py $(<~/temp.txt)
