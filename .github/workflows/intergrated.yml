@@ -169,7 +169,9 @@ jobs:
               fi
 
         - name: zip apk file
-          run: tar -cvf apps.tar ./output.apk 
+          run: |
+            tar -cvf apps.tar ./output.apk 
+            mv git_action_requirement/white_box_html/test_changed.html git_action_requirement/white_box_html/report.html 
            
 
         # - name: Concat Html
@@ -187,11 +189,11 @@ jobs:
             secure: true
             subject: Github Actions job result
             # Required recipients' addresses:
-            to:  elina.ding@outlook.com
+            to:  ${{github.event.pusher.email}}
             # Required sender full name (address can be skipped):
             from: Metaverse CICD Developer # <user@example.com>
             # Optional plain body:
-            html_body: file://${{ github.workspace }}/git_action_requirement/white_box_html/test_changed.html
-            attachments: apps.tar, git_action_requirement/white_box_html/test_changed.html
+            html_body: file://${{ github.workspace }}/git_action_requirement/pages/email.html
+            attachments: apps.tar, git_action_requirement/white_box_html/report.html
             ignore_cert: true
 
