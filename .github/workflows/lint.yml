@@ -5,7 +5,7 @@ on:
   # but only for the main branch
   push:
     branches:
-      - unit-test
+      - all
 
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
 
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
-        run: npm ci
+        run: echo "${{github.event.pusher.email}}"
       
       - id: files
         uses: jitterbit/get-changed-files@v1
