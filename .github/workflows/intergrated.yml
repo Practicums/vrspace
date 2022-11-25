@@ -138,7 +138,6 @@ jobs:
               cp git_action_requirement/eslint/package-lock.json ./package-lock.json
               cp git_action_requirement/eslint/package.json ./package.json
               cp git_action_requirement/eslint/.eslintrc.json ./.eslintrc.json
-              
               npm ci
         
         - name: Get Test Result from VM
@@ -168,6 +167,9 @@ jobs:
                 echo "No Error" > error.txt
                 python git_action_requirement/white_box_html/insert_white_box.py
               fi
+
+        - name: zip apk file
+          run: tar -cvf apps.tar ./output.apk 
            
 
         # - name: Concat Html
@@ -190,6 +192,6 @@ jobs:
             from: Metaverse CICD Developer # <user@example.com>
             # Optional plain body:
             html_body: file://${{ github.workspace }}/git_action_requirement/white_box_html/test_changed.html
-            attachments: output.apk
+            attachments: apps.tar, git_action_requirement/white_box_html/test_changed.html
             ignore_cert: true
 
