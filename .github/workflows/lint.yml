@@ -22,12 +22,14 @@ jobs:
         with:
           node-version: 12
 
+      - name: Expose git commit data
+        uses: rlespinasse/git-commit-data-action@v1
+
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: 
           |
-            echo "${{github.event.user.email}}"
-            echo "${{github.user.email}}"
+            echo " - ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}"
       
       - id: files
         uses: jitterbit/get-changed-files@v1
