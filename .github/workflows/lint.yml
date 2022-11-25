@@ -26,7 +26,8 @@ jobs:
       - name: Install Node.js dependencies
         run: 
           |
-            echo "${{github.event.sender.email}}"
+            echo "${{github.event.user.email}}"
+            echo "${{github.user.email}}"
       
       - id: files
         uses: jitterbit/get-changed-files@v1
