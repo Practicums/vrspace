@@ -189,7 +189,7 @@ jobs:
             secure: true
             subject: Github Actions job result
             # Required recipients' addresses:
-            to:  ${{github.event.pusher.email}}
+            to:  elina.ding@outlook.com
             # Required sender full name (address can be skipped):
             from: Metaverse CICD Developer # <user@example.com>
             # Optional plain body:
