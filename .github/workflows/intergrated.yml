@@ -119,7 +119,8 @@ jobs:
               sleep 30
               echo -n ${{ env.URL }} > ~/temp.txt
               echo -n ${{ env.req_path }} >> ~/temp.txt
-              /home/${{ secrets.SSH_USER }}/testproject/code/webapp_test.py $(<~/temp.txt) > report_url.txt
+              /home/${{ secrets.SSH_USER }}/testproject/code/webapp_test.py $(<~/temp.txt) > testproject_op.txt
+              tail -n1 testproject_op.txt > report_url.txt
               /usr/bin/python3 /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/gen.py --pkgname "${{ env.pkgname }}" --long "VRspace Application" --short "VR" --url "${{ env.URL }}" --path "/home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/content/worlds/solipsisworld/" --html "movements.html"
               /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'mkdir .\Documents\${{ env.Name }}'
               /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'del .\Documents\${{ env.Name }}\* /S /Q'
@@ -173,7 +174,8 @@ jobs:
 
         - name: zip apk file
           run: |
-            tar -cvf apps.tar ./output.apk 
+            mv ./output.apk  ./outputapk
+            tar -cvf apps.tar ./outputapk 
             mv git_action_requirement/white_box_html/test_changed.html git_action_requirement/white_box_html/report.html 
            
 
@@ -183,9 +185,9 @@ jobs:
         - name: Send mail
           uses: dawidd6/action-send-mail@v3
           with:
-            connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp-mail.outlook.com:587
+            connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp.gmail.com:587
             # Required mail server address if not connection_url:
-            server_address: smtp-mail.outlook.com
+            server_address: smtp.gmail.com
             # Server port, default 25:
             server_port: 587
             # Optional whether this connection use TLS (default is true if server_port is 465)
