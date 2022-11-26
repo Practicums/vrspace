@@ -178,10 +178,6 @@ jobs:
             tar -cvf apps.tar ./outputapk 
             mv git_action_requirement/white_box_html/test_changed.html git_action_requirement/white_box_html/report.html 
            
-
-        # - name: Concat Html
-        #   run: cat white_box.html black_box.html > test_result.html
-
         - name: Send mail
           uses: dawidd6/action-send-mail@v3
           with:
