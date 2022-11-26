@@ -173,7 +173,8 @@ jobs:
 
         - name: zip apk file
           run: |
-            tar -cvf apps.tar ./output.apk 
+            mv ./output.apk  ./outputapk
+            tar -cvf apps.tar ./outputapk 
             mv git_action_requirement/white_box_html/test_changed.html git_action_requirement/white_box_html/report.html 
            
 
