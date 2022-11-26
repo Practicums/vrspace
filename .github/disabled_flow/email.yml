@@ -1,0 +1,39 @@
+name: Send Email
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - unit-test
+      - lint-test
+
+jobs:
+  email:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp-mail.outlook.com:587
+          # Required mail server address if not connection_url:
+          server_address: smtp-mail.outlook.com
+          # Server port, default 25:
+          server_port: 587
+          # Optional whether this connection use TLS (default is true if server_port is 465)
+          secure: true
+          subject: Github Actions job result
+          # Required recipients' addresses:
+          to:  elina.ding@outlook.com
+          # Required sender full name (address can be skipped):
+          from: Metaverse CICD Developer # <user@example.com>
+          # Optional plain body:
+          body: Build job of ${{github.repository}} completed successfully!
+          ignore_cert: true
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          #convert_markdown: true
+          # Optional attachments:
+          attachments: attachments.zip,git.diff,./dist/static/*.js
+          # Optional priority: 'high', 'normal' (default) or 'low'
+          #priority: low

@@ -1,0 +1,202 @@
+# This is a workflow to build, deploy and test A-Frame applications.
+name: VRspace Deployment Pipeline
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: 
+      - master
+      - all
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  Name : vrspace
+  Project_Name : metaverse-363005
+  Cluster_name : vrspace-cluster
+  Server_Name : vrspace-server
+  Service_Name : vrspace-service
+  Ext_IP: 104.154.136.216
+  URL: https://vrspace.endpoints.metaverse-363005.cloud.goog 
+  pkgname: vr.ball.application
+  req_path: /content/worlds/solipsisworld/movements.html
+
+jobs:
+  build_deploy_test:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        # install key for rsynch and vm
+        - name: Install SSH Key
+          uses: shimataro/ssh-key-action@v2
+          with:
+            key: ${{ secrets.RSA_KEY }} 
+            known_hosts: 'placeholder'
+        - run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+        - name: download requirement for white box
+          run: git clone https://github.com/Practicums/git_action_requirement.git
+
+        - name: Install Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.9'
+            cache: 'pip' # caching pip dependencies
+            cache-dependency-path: 'git_action_requirement/white_box_html/requirements.txt'
+        - run: pip install -r git_action_requirement/white_box_html/requirements.txt
+
+
+        
+        - name: Setting up Google Cloud
+          uses: google-github-actions/setup-gcloud@v0
+          with:
+            version: '286.0.0'
+            service_account_key: ${{ secrets.GCP_KEY }}
+            service_account_email: ${{ secrets.SERVICE_EMAIL }}
+            project_id:  ${{ env.Project_Name }}
+
+        - name: Copy files to remote vm
+          run: rsync -avz -e "ssh -p 22" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/project/${{ env.Name }} --delete
+
+        - name: Authenticate Docker
+          run: |-
+            gcloud auth configure-docker -q
+        
+        - name: Expose git commit data
+          uses: rlespinasse/git-commit-data-action@v1
+
+        - name: Build Docker Image
+          run: |-
+            docker build -t vrspace .
+            
+        - name: Tag Docker Image
+          run: |-
+            docker tag vrspace gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+            
+        - name: Push Docker Image
+          run: |-
+            docker push gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+
+        - name: Deploy Docker Image and push as HTTPS
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }} 
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.RSA_KEY }} 
+            port: 22
+            script: | 
+              gcloud endpoints services deploy /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/openapi.yaml 
+              gcloud container clusters create ${{ env.Cluster_name }} 2> /dev/null
+              gcloud container clusters get-credentials ${{ env.Cluster_name }}
+              kubectl delete service ${{ env.Service_Name }} 
+              kubectl delete deployment ${{ env.Server_Name }}
+              sleep 10
+              helm install nginx-stable/nginx-ingress --set controller.service.loadBalancerIP="${{ env.Ext_IP }}",rbac.create=true --generate-name
+              kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080 --load-balancer-ip=104.197.66.108
+              sleep 60
+            
+        - name: Deploy Docker Image and push as HTTPS
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }} 
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.RSA_KEY }} 
+            port: 22
+            script: | 
+              helm install nginx-stable/nginx-ingress --set controller.service.loadBalancerIP="${{ env.Ext_IP }}",rbac.create=true --generate-name
+              kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080 --load-balancer-ip=104.197.66.108
+              sleep 60
+              kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress.yaml
+              chmod +x /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh && /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh
+              export EMAIL=${{ secrets.SERVICE_EMAIL }}
+              cat /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/letsencrypt-issuer.yaml | sed -e "s/email: ''/email: $EMAIL/g" | kubectl apply -f-
+              kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress-tls.yaml
+              sleep 30
+              echo -n ${{ env.URL }} > ~/temp.txt
+              echo -n ${{ env.req_path }} >> ~/temp.txt
+              /home/${{ secrets.SSH_USER }}/testproject/code/webapp_test.py $(<~/temp.txt) > report_url.txt
+              /usr/bin/python3 /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/gen.py --pkgname "${{ env.pkgname }}" --long "VRspace Application" --short "VR" --url "${{ env.URL }}" --path "/home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/content/worlds/solipsisworld/" --html "movements.html"
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'mkdir .\Documents\${{ env.Name }}'
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'del .\Documents\${{ env.Name }}\* /S /Q'
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }} 'wget ${{ env.URL }}/manifest.json -P .\Documents\${{ env.Name }} && ovr-platform-util.exe create-pwa -o .\Documents\${{ env.Name }}\output.apk --android-sdk %androidsdk% --package-name ${{ env.pkgname }} --manifest-content-file .\Documents\${{ env.Name }}\manifest.json'
+              /usr/bin/sshpass -f /home/${{ secrets.SSH_USER }}/project/winpass.txt scp -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.WINDOWS_HOST }}:Documents/${{ env.Name }}/output.apk /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk
+
+        
+        - name: Get Name File from VM
+          run: |
+              sleep 60
+              rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/metaverseops/report_url.txt ./
+              rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/output.apk ./
+              cat report_url.txt
+
+
+        # for sending emails
+        - name: Install Node.js dependencies
+          run: |
+              cp git_action_requirement/eslint/package-lock.json ./package-lock.json
+              cp git_action_requirement/eslint/package.json ./package.json
+              cp git_action_requirement/eslint/.eslintrc.json ./.eslintrc.json
+              npm ci
+        
+        - name: Get Test Result from VM
+          run: rsync -avz -e "ssh -p 22"  ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$(cat report_url.txt) git_action_requirement/white_box_html/test_result.html
+      
+        - name: build white box structure
+          run: python git_action_requirement/white_box_html/white_struct.py   
+          
+        - id: files
+          uses: jitterbit/get-changed-files@v1
+        - run: |
+              count=$((0))
+              for changed_file in ${{ steps.files.outputs.added_modified }}
+              do
+              echo $changed_file
+              if [[ $changed_file == *.js ]]
+              then
+                echo "$changed_file" > error.txt
+                npx eslint $changed_file >> error.txt || true
+                python git_action_requirement/white_box_html/insert_white_box.py
+                count=$((count + 1))
+              fi
+              done
+
+              if [[ $count == 0 ]]
+              then
+                echo "No Error" > error.txt
+                python git_action_requirement/white_box_html/insert_white_box.py
+              fi
+
+        - name: zip apk file
+          run: |
+            tar -cvf apps.tar ./output.apk 
+            mv git_action_requirement/white_box_html/test_changed.html git_action_requirement/white_box_html/report.html 
+           
+
+        # - name: Concat Html
+        #   run: cat white_box.html black_box.html > test_result.html
+
+        - name: Send mail
+          uses: dawidd6/action-send-mail@v3
+          with:
+            connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp-mail.outlook.com:587
+            # Required mail server address if not connection_url:
+            server_address: smtp-mail.outlook.com
+            # Server port, default 25:
+            server_port: 587
+            # Optional whether this connection use TLS (default is true if server_port is 465)
+            secure: true
+            subject: Github Actions job result
+            # Required recipients' addresses:
+            to: ${{ env.GIT_COMMIT_COMMITTER_EMAIL }}
+            # Required sender full name (address can be skipped):
+            from: Metaverse CICD Developer # <user@example.com>
+            # Optional plain body:
+            html_body: file://${{ github.workspace }}/git_action_requirement/pages/email.html
+            attachments: apps.tar, git_action_requirement/white_box_html/report.html
+            ignore_cert: true
+
