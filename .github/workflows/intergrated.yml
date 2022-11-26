@@ -68,17 +68,17 @@ jobs:
         - name: Expose git commit data
           uses: rlespinasse/git-commit-data-action@v1
 
-        - name: Build Docker Image
-          run: |-
-            docker build -t vrspace .
+        # - name: Build Docker Image
+        #   run: |-
+        #     docker build -t vrspace .
             
-        - name: Tag Docker Image
-          run: |-
-            docker tag vrspace gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+        # - name: Tag Docker Image
+        #   run: |-
+        #     docker tag vrspace gcr.io/${{ env.Project_Name }}/${{ env.Name }}
             
-        - name: Push Docker Image
-          run: |-
-            docker push gcr.io/${{ env.Project_Name }}/${{ env.Name }}
+        # - name: Push Docker Image
+        #   run: |-
+        #     docker push gcr.io/${{ env.Project_Name }}/${{ env.Name }}
 
         - name: Deploy Docker Image and push as HTTPS
           uses: appleboy/ssh-action@master
@@ -174,7 +174,8 @@ jobs:
 
         - name: zip apk file
           run: |
-            tar -cvf apps.tar ./output.apk 
+            mv ./output.apk  ./outputapk
+            tar -cvf apps.tar ./outputapk 
             mv git_action_requirement/white_box_html/test_changed.html git_action_requirement/white_box_html/report.html 
            
 
@@ -184,9 +185,9 @@ jobs:
         - name: Send mail
           uses: dawidd6/action-send-mail@v3
           with:
-            connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp-mail.outlook.com:587
+            connection_url: smtp://${{secrets.email_sender}}:${{secrets.email_password}}@smtp.gmail.com:587
             # Required mail server address if not connection_url:
-            server_address: smtp-mail.outlook.com
+            server_address: smtp.gmail.com
             # Server port, default 25:
             server_port: 587
             # Optional whether this connection use TLS (default is true if server_port is 465)
