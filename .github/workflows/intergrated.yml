@@ -19,7 +19,8 @@ env:
   Cluster_name : vrspace-cluster
   Server_Name : vrspace-server
   Service_Name : vrspace-service
-  Ext_IP: 104.154.136.216
+  Ext_IP: 34.102.119.198
+  Load_balancer_IP: 34.102.119.198
   URL: https://vrspace.endpoints.metaverse-363005.cloud.goog 
   pkgname: vr.ball.application
   req_path: /content/worlds/solipsisworld/movements.html
@@ -97,12 +98,11 @@ jobs:
               gcloud endpoints services deploy /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/openapi.yaml 
               gcloud container clusters create ${{ env.Cluster_name }} --zone ${{ env.Zone }} 2> /dev/null
               gcloud container clusters get-credentials ${{ env.Cluster_name }}
-              kubectl delete service ${{ env.Service_Name }} 
-              kubectl delete deployment ${{ env.Server_Name }}
               sleep 10
               helm install nginx-stable/nginx-ingress --set controller.service.loadBalancerIP="${{ env.Ext_IP }}",rbac.create=true --generate-name
               kubectl create deployment ${{ env.Server_Name }} --image=gcr.io/${{ env.Project_Name }}/${{ env.Name }}
-              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080 --load-balancer-ip=104.197.66.108
+              kubectl expose deployment ${{ env.Server_Name }} --name=${{ env.Service_Name }} --type=LoadBalancer --port=80 --target-port=8080 --load-balancer-ip=${{ env.Load_balancer_IP }}
+              sleep 60
               kubectl apply -f /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/ingress.yaml
               chmod +x /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh && /home/${{ secrets.SSH_USER }}/project/${{ env.Name }}/cert-manager_install.sh
               export EMAIL=${{ secrets.SERVICE_EMAIL }}
