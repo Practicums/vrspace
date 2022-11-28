@@ -167,7 +167,8 @@ jobs:
         - name: zip apk file
           run: |
             mv ./output.apk  ./outputapk
-            tar -cvf apps.tar ./outputapk ./git_action_requirement/photo/apk_install.pdf
+            mv ./git_action_requirement/photo/apk_install.pdf ./apk_install.pdf
+            tar -cvf apps.tar ./outputapk apk_install.pdf
             mv git_action_requirement/white_box_html/test_changed.html git_action_requirement/white_box_html/report.html 
            
         - name: Send mail
