@@ -13,6 +13,8 @@ on:
 
 env:
   Name : vrspace
+  Region: us-west2
+  Zone: us-west2-a
   Project_Name : metaverse-363005
   Cluster_name : vrspace-cluster
   Server_Name : vrspace-server
