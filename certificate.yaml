@@ -8,6 +8,6 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: vrspace.endpoints.metaverse-363005.cloud.goog
+  commonName: vrserver.endpoints.metaverse-363005.cloud.goog
   dnsNames:
-  - vrspace.endpoints.metaverse-363005.cloud.goog
+  - vrserver.endpoints.metaverse-363005.cloud.goog

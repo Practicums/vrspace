@@ -13,10 +13,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - vrspace.endpoints.metaverse-363005.cloud.goog
+    - vrserver.endpoints.metaverse-363005.cloud.goog
     secretName: vrspace-tls
   rules:
-  - host: vrspace.endpoints.metaverse-363005.cloud.goog
+  - host: vrserver.endpoints.metaverse-363005.cloud.goog
     http:
       paths:
       - path: /
