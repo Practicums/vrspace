@@ -1,3 +1,11 @@
+# Aframe Metaverse Application Deployment Pipeline
+
+The purpose of this project is to build an end-to-end pipeline that would build, deploy, test, and package an VRSpace framework-based metaverse application. 
+
+There is a big overlap with the pipeline described in https://github.com/Practicums/aframe-deployment. The only major difference is the way metaverse application files are hosted on the docker image, which is explained below. 
+
+The project is an extension of the https://github.com/web3-security-metaverse/metaverse/tree/master repository. Github action pipeline for the VRspace application is https://github.com/Practicums/vrspace/blob/master/.github/workflows/intergrated.yml. 
+
 # Applying Solipsism to VRSpace
 
 The scripts are in vrspace/content/worlds/solipsisworld/ folder. Basic usage of three.js is in three.js and three.html files. Basic application of solipsism to vrspace is in solpkg.js and solpkg.html files. movements.js and movements.html are main scripts in this project. 
