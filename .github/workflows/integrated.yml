@@ -51,7 +51,7 @@ jobs:
             cache-dependency-path: 'git_action_requirement/white_box_html/requirements.txt'
         - run: pip install -r git_action_requirement/white_box_html/requirements.txt        
         - name: Setting up Google Cloud
-          uses: google-github-actions/setup-gcloud@v0
+          uses: google-github-actions/setup-gcloud@v1
           with:
             version: '286.0.0'
             service_account_key: ${{ secrets.GCP_KEY }}
