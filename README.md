@@ -1,5 +1,4 @@
-
-# Aframe Metaverse Application Deployment Pipeline
+# VRSpace Metaverse Application Deployment Pipeline
 
 The purpose of this project is to build an end-to-end pipeline that would build, deploy, test, and package an VRSpace framework-based metaverse application. 
 
